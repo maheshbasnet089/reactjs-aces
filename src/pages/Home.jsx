@@ -1,22 +1,37 @@
+import { useEffect, useState } from "react"
 import Card from "./components/Card"
 import Navbar from "./components/Navbar"
+import axios from 'axios'
 
 
 
 function Home(){
+  const [blogs,setBlogs] = useState([])
+  async function fetchBlogs(){
+  const response = await axios.get("https://687af358abb83744b7ee465d.mockapi.io/blogs")
+  console.log(response)
+  if(response.status == 200){
+    setBlogs(response.data)
+  }else{
+    alert("Error aayooo !!!")
+  }
+  }
+
+  useEffect(()=>{
+   fetchBlogs()
+  },[])
+  
+console.log(blogs,"This is blogs")
     return(
 <>
      <Navbar />
        <div className="flex justify-between flex-wrap">
-         <Card />
-        <Card />
-        <Card />
-          <Card />
-        <Card />
-        <Card />
-          <Card />
-        <Card />
-        <Card />
+        {blogs.map(function(blog){
+          return(
+            <Card key={blog.id} blog={blog} />
+          )
+        })}
+    
        </div>
 
 
