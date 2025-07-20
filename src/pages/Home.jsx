@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import Card from "./components/Card"
 import Navbar from "./components/Navbar"
 import axios from 'axios'
+import { useParams } from "react-router-dom"
 
 
 
 function Home(){
+  
   const [blogs,setBlogs] = useState([])
   async function fetchBlogs(){
   const response = await axios.get("https://687af358abb83744b7ee465d.mockapi.io/blogs")
