@@ -1,14 +1,30 @@
 import { useState } from "react"
 import Navbar from "./components/Navbar"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 function Edit(){
+    const data = useParams()
     const navigate = useNavigate()
     const [title,setTitle] = useState("")
     const [subtitle,setSubtitle] = useState("")
     const [description,setDescription] = useState("")
     const [image, setImage] = useState("")
+
+    async function sentEditDataToBackend(e){
+        e.preventDefault()
+      const response =   await axios.put("https://687af358abb83744b7ee465d.mockapi.io/blogs/" + data.id,{
+            title : title, 
+            subtitle : subtitle, 
+            description : description, 
+            image : image
+        })
+        if(response.status == 200){
+            navigate("/single/" + data.id)
+        }else{
+            alert("ERror happened")
+        }
+    }
 
     return(
        <>
@@ -16,7 +32,7 @@ function Edit(){
     <div className="mx-14 mt-10 border-2 border-blue-400 rounded-lg">
   <div className="mt-10 text-center font-bold">Blog Edit</div>
   <div className="mt-3 text-center text-4xl font-bold">Edit a Blog</div>
-  <form className="p-8">
+  <form onSubmit={sentEditDataToBackend} className="p-8">
     <div className="flex gap-4">
       <input type="text" name="title" className="mt-1 block w-1/2 rounded-md border border-slate-300 bg-white px-3 py-4 placeholder-slate-400 shadow-sm placeholder:font-semibold placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm" placeholder="Enter a title" onChange={(e)=>setTitle(e.target.value)} />
       <input type="text" name="subtitle" className="mt-1 block w-1/2 rounded-md border border-slate-300 bg-white px-3 py-4 placeholder-slate-400 shadow-sm placeholder:font-semibold placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm" placeholder="Enter a subtitle" onChange={(e)=>setSubtitle(e.target.value)} />
