@@ -14,10 +14,9 @@ function Edit(){
     async function sentEditDataToBackend(e){
         e.preventDefault()
       const response =   await axios.put("https://687af358abb83744b7ee465d.mockapi.io/blogs/" + data.id,{
-            title : title, 
             subtitle : subtitle, 
             description : description, 
-            image : image
+            image : image 
         })
         if(response.status == 200){
             navigate("/single/" + data.id)
